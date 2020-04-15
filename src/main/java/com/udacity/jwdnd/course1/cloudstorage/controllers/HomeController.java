@@ -273,6 +273,12 @@ public class HomeController {
         String _sessionUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         Users _user = usersMapper.getUserByUsername(_sessionUsername);
 
+        Files fileExists = filesMapper.getFileByFilename(file.getOriginalFilename(), _user.getUserid());
+        if(fileExists != null ){
+            attributes.addFlashAttribute("alertClass", "danger");
+            attributes.addFlashAttribute("msg", "Your file  "+file.getOriginalFilename()+" already exists.");
+            return new RedirectView("/dashboard");
+        }
         Files f = dbFileStorageService.storeFile(file, _user.getUserid());
 
         attributes.addFlashAttribute("alertClass", "success");
