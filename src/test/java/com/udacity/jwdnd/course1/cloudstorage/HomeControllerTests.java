@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
+import com.udacity.jwdnd.course1.cloudstorage.helper.CredentialsTableHelper;
 import com.udacity.jwdnd.course1.cloudstorage.helper.NotesTableHelper;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
@@ -37,7 +38,7 @@ public class HomeControllerTests {
         }
     }
 
-    /*@Test
+    @Test
     public void shouldSaveCredential() {
         driver.get("http://localhost:" + this.port + "/login");
         String testUrlCredential = "http://www.gmail.com";
@@ -68,8 +69,6 @@ public class HomeControllerTests {
         credentialUsername.clear();
         credentialUsername.sendKeys(testUsernameCredential);
 
-
-
         WebElement credentialPassword = driver.findElement(By.id("credential-password"));
         credentialPassword.clear();
         credentialPassword.sendKeys(testPasswordCredential);
@@ -80,13 +79,13 @@ public class HomeControllerTests {
 
         driver.findElement(By.id("nav-credentials-tab")).click();
         pause(900);
-        WebElement tbody =  driver.findElement(By.id("credentialTable")).findElement(By.tagName("tbody"));
-        WebElement tr = tbody.findElements(By.tagName("tr")).get(tbody.findElements(By.tagName("tr")).size()-1);
 
-        List<WebElement> row = tr.findElements(By.tagName("td"));
-        Assertions.assertEquals(testUrlCredential, row.get(1).getText());
-        Assertions.assertEquals(testUsernameCredential, row.get(2).getText());
-        Assertions.assertEquals(testPasswordCredential, row.get(3).getAttribute("code"));
+        CredentialsTableHelper credentialsTable = new CredentialsTableHelper(driver,"credentialTable");
+
+        List<WebElement> columns =  credentialsTable.getColumns(credentialsTable.getRows().size()-1);
+        Assertions.assertEquals(testUrlCredential, columns.get(1).getText());
+        Assertions.assertEquals(testUsernameCredential, columns.get(2).getText());
+        Assertions.assertEquals(testPasswordCredential, columns.get(3).getAttribute("code"));
 
 
     }
@@ -131,15 +130,14 @@ public class HomeControllerTests {
 
         driver.findElement(By.id("nav-notes-tab")).click();
         pause(900);
-        WebElement tbody =  driver.findElement(By.id("noteTable")).findElement(By.tagName("tbody"));
-        WebElement tr = tbody.findElements(By.tagName("tr")).get(tbody.findElements(By.tagName("tr")).size()-1);
 
+        NotesTableHelper notesTable = new NotesTableHelper(driver,"noteTable");
 
-        List<WebElement> row = tr.findElements(By.tagName("td"));
-        Assertions.assertEquals(testNoteTitle, row.get(1).getText());
-        Assertions.assertEquals(testNoteDescription, row.get(2).getText());
+        List<WebElement> columns = notesTable.getColumns(notesTable.getRows().size()-1);
+        Assertions.assertEquals(testNoteTitle, columns.get(1).getText());
+        Assertions.assertEquals(testNoteDescription, columns.get(2).getText());
 
-    }*/
+    }
 
     @Test
     public void shouldEditNote(){
@@ -163,10 +161,8 @@ public class HomeControllerTests {
 
         NotesTableHelper notesTable = new NotesTableHelper(driver,"noteTable");
 
-        //WebElement tbody =  getTbody("noteTable");//driver.findElement(By.id("noteTable")).findElement(By.tagName("tbody"));
-        //WebElement tr = tbody.findElements(By.tagName("tr")).get(tbody.findElements(By.tagName("tr")).size()-1);
 
-        List<WebElement> columns = notesTable.getColumns(notesTable.getRows().size()-1);//notesTable.getRow(notesTable.getRows().size()-1).findElements(By.tagName("tr")); // tr.findElements(By.tagName("td"));
+        List<WebElement> columns = notesTable.getColumns(notesTable.getRows().size()-1);
         columns.get(0).findElement(By.tagName("button")).click();
         pause(900);
 
@@ -187,9 +183,7 @@ public class HomeControllerTests {
         pause(900);
 
 
-        List<WebElement> rows = getRows(getTbody("noteTable")); //driver.findElements(By.tagName("tr"));
-
-        Assertions.assertTrue( findInRow(rows, testNoteTitle, testNoteDescription));
+        Assertions.assertTrue( notesTable.findInRow(notesTable.getRows(), testNoteTitle, testNoteDescription));
 
 
     }

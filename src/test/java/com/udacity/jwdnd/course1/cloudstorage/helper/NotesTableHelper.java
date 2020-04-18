@@ -9,19 +9,14 @@ import java.util.List;
 public class NotesTableHelper extends TableHelper {
 
 
-    public NotesTableHelper(WebDriver driver) {
-        super(driver);
-    }
-
-    public NotesTableHelper(WebDriver driver, String tableId){
+    public NotesTableHelper(WebDriver driver, String tableId) {
         super(driver, tableId);
-
     }
 
     public boolean findInRow(List<WebElement> rows, String noteTitle, String noteDescription){
         for(WebElement column : rows){
-            if(noteTitle == column.findElements(By.tagName("td")).get(1).getText()){
-                if(noteDescription == column.findElements(By.tagName("td")).get(2).getText()){
+            if(noteTitle.equals(column.findElements(By.tagName("td")).get(1).getText())){
+                if(noteDescription.equals(column.findElements(By.tagName("td")).get(2).getText())){
                     return true;
                 }
             }
