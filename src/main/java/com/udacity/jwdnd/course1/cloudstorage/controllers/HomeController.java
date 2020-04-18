@@ -49,7 +49,6 @@ public class HomeController {
         String _sessionUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         Users _user = usersMapper.getUserByUsername(_sessionUsername);
 
-        System.out.println("Ingresoooo "+noteId);
 
         if(_user == null){
 
@@ -128,8 +127,6 @@ public class HomeController {
 
             newCredential.setUserid(_user.getUserid());
             newCredential.setKey(KEY);
-            System.out.println("key");
-            System.out.println(KEY);
             newCredential.setUrl(credential.getUrl());
             newCredential.setUsername(credential.getUsername());
             newCredential.setPassword( es.encryptValue(credential.getPassword(),KEY));

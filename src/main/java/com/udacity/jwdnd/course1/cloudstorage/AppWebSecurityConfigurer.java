@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
 import com.udacity.jwdnd.course1.cloudstorage.services.AuthenticationService;
+import com.udacity.jwdnd.course1.cloudstorage.services.HashService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,8 +21,7 @@ import javax.sql.DataSource;
 public class AppWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 
-    //@Autowired(required=true)
-    //private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -114,10 +114,10 @@ public class AppWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-        System.out.println("asl;kdjf;laksjdf;lkjasd;lkfjaslk;djf");
         auth
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
+                //.passwordEncoder(new HashService());
     }
 /*
     @Override

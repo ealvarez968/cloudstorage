@@ -38,8 +38,8 @@ public class AuthenticationService implements UserDetailsService {
         if(user == null){
             return null;
         }
-        bCryptPasswordEncoder=  new BCryptPasswordEncoder();
-        bCryptPasswordEncoder.encode(user.getPassword());
+        //bCryptPasswordEncoder=  new BCryptPasswordEncoder();
+        //bCryptPasswordEncoder.encode(user.getPassword());
         List<GrantedAuthority> authorities = getUserAuthority(usersMapper.getRolesByUserid(user.getUserid()));
 
         return buildUserForAuthentication(user, authorities);

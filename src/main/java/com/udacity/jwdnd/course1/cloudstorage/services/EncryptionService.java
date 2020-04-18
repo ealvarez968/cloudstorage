@@ -69,10 +69,6 @@ public class EncryptionService {
 
             int rndCharAt = random.nextInt(PASSWORD_ALLOW.length());
             char rndChar = PASSWORD_ALLOW.charAt(rndCharAt);
-
-            // debug
-            System.out.format("%d\t:\t%c%n", rndCharAt, rndChar);
-
             sb.append(rndChar);
 
         }

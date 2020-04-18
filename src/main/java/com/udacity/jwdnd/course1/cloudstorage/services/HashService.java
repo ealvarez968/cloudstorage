@@ -2,6 +2,8 @@ package com.udacity.jwdnd.course1.cloudstorage.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKeyFactory;
@@ -12,8 +14,17 @@ import java.security.spec.KeySpec;
 import java.util.Base64;
 
 @Component
-public class HashService {
+public class HashService  {
     private Logger logger = LoggerFactory.getLogger(HashService.class);
+    private String salt;
+
+    public Logger getLogger() {
+        return logger;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 
     public String getHashedValue(String data, String salt) {
         byte[] hashedValue = null;
@@ -28,4 +39,6 @@ public class HashService {
 
         return Base64.getEncoder().encodeToString(hashedValue);
     }
+
+
 }
