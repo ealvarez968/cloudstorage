@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
+import com.udacity.jwdnd.course1.cloudstorage.helper.NotesTableHelper;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
@@ -36,7 +37,7 @@ public class HomeControllerTests {
         }
     }
 
-    @Test
+    /*@Test
     public void shouldSaveCredential() {
         driver.get("http://localhost:" + this.port + "/login");
         String testUrlCredential = "http://www.gmail.com";
@@ -138,6 +139,80 @@ public class HomeControllerTests {
         Assertions.assertEquals(testNoteTitle, row.get(1).getText());
         Assertions.assertEquals(testNoteDescription, row.get(2).getText());
 
+    }*/
+
+    @Test
+    public void shouldEditNote(){
+
+        driver.get("http://localhost:" + this.port + "/login");
+        String testNoteTitle = "NewTitle";
+        String testNoteDescription = "NewDescription";
+
+
+        WebElement username = driver.findElement(By.id("username"));
+        username.clear();
+        username.sendKeys("ealvarez");
+
+        WebElement password = driver.findElement(By.id("password"));
+        password.clear();
+        password.sendKeys("aqswdefr1");
+
+        driver.findElement(By.tagName("form")).submit();
+        driver.findElement(By.id("nav-notes-tab")).click();
+        pause(900);
+
+        NotesTableHelper notesTable = new NotesTableHelper(driver,"noteTable");
+
+        //WebElement tbody =  getTbody("noteTable");//driver.findElement(By.id("noteTable")).findElement(By.tagName("tbody"));
+        //WebElement tr = tbody.findElements(By.tagName("tr")).get(tbody.findElements(By.tagName("tr")).size()-1);
+
+        List<WebElement> columns = notesTable.getColumns(notesTable.getRows().size()-1);//notesTable.getRow(notesTable.getRows().size()-1).findElements(By.tagName("tr")); // tr.findElements(By.tagName("td"));
+        columns.get(0).findElement(By.tagName("button")).click();
+        pause(900);
+
+        WebElement noteTitle = driver.findElement(By.id("note-title"));
+        noteTitle.clear();
+        noteTitle.sendKeys(testNoteTitle);
+
+        WebElement noteDescription = driver.findElement(By.id("note-description"));
+        noteDescription.clear();
+        noteDescription.sendKeys(testNoteDescription);
+
+        driver.findElement(By.id("noteSubmit")).submit();
+
+        Assertions.assertEquals("Your note "+testNoteTitle+" has been updated successfully",
+                driver.findElement(By.id("lblMsg")).getText());
+
+        driver.findElement(By.id("nav-notes-tab")).click();
+        pause(900);
+
+
+        List<WebElement> rows = getRows(getTbody("noteTable")); //driver.findElements(By.tagName("tr"));
+
+        Assertions.assertTrue( findInRow(rows, testNoteTitle, testNoteDescription));
+
+
+    }
+
+    private boolean findInRow(List<WebElement> rows, String title, String description){
+        for(WebElement column : rows){
+            if(title == column.findElements(By.tagName("td")).get(1).getText()){
+                if(description == column.findElements(By.tagName("td")).get(1).getText()){
+                    return true;
+                }
+            }
+
+        }
+
+        return false;
+    }
+
+    private WebElement getTbody(String tableId){
+        return driver.findElement(By.id(tableId)).findElement(By.tagName("tbody"));
+    }
+
+    private List<WebElement> getRows(WebElement tbody){
+        return tbody.findElements(By.tagName("tr"));
     }
 
     private void pause(int millis){
