@@ -1,4 +1,9 @@
 package com.udacity.jwdnd.course1.cloudstorage.helper;
 
-public class CredentialsTableHelper {
+import org.openqa.selenium.WebDriver;
+
+public class CredentialsTableHelper extends TableHelper{
+    public CredentialsTableHelper(WebDriver driver, String tableId) {
+        super(driver, tableId);
+    }
 }
