@@ -30,7 +30,7 @@ public class SignUpController {
     @RequestMapping("/signup")
     public ModelAndView getHome(@ModelAttribute("alertClass") String alertClass, @ModelAttribute("msg") String msg){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("registro");
+        mav.setViewName("signup");
 
         mav.addObject("user", new Users());
 

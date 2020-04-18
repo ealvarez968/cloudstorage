@@ -1,32 +1,22 @@
 package com.udacity.jwdnd.course1.cloudstorage.helper;
 
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-class TableHelper {
+class TableHelper extends TestsHelper {
 
     private String tableId;
-    private WebDriver driver;
-
-    public TableHelper(WebDriver driver){
-        this.driver = driver;
-    }
 
     public TableHelper(WebDriver driver, String tableId){
+        super(driver);
         this.tableId = tableId;
-        this.driver = driver;
-
     }
-
-    public WebDriver getDriver() {
-        return driver;
-    }
-
-    public void setDriver(WebDriver driver) {
-        this.driver = driver;
+    public TableHelper(WebDriver driver){
+        super(driver);
     }
 
     public String getTableId() {
@@ -38,7 +28,7 @@ class TableHelper {
     }
 
     public WebElement getTbody(){
-        return driver.findElement(By.id(tableId)).findElement(By.tagName("tbody"));
+        return getDriver().findElement(By.id(tableId)).findElement(By.tagName("tbody"));
     }
 
     public List<WebElement> getRows(){
