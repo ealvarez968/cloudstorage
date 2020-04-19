@@ -57,6 +57,12 @@ public class LoginControllerTests {
     }
 
     @Test
+    public void shouldFailAccess() {
+        driver.get("http://localhost:" + this.port + "/home");
+        Assertions.assertEquals("Login", driver.getTitle());
+    }
+
+    @Test
     public void shouldSignUp() {
         driver.get("http://localhost:" + this.port + "/login");
 

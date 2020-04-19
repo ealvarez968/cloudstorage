@@ -13,11 +13,6 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="articleMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="com.udacity.jwdnd.course1.cloudstorage.model.ArticleMapper"/>
-        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
-    </bean>
-
     <bean id="usersMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="mapperInterface" value="com.udacity.jwdnd.course1.cloudstorage.model.UsersMapper"/>
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>

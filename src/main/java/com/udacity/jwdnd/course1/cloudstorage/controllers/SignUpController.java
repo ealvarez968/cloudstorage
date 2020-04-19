@@ -81,18 +81,8 @@ public class SignUpController {
 
         Users inserted = usersMapper.getUserByUsername(user.getUsername());
         rolesMapper.insertRole("ADMIN", inserted.getUserid());
-        for(Users u : usersMapper.getUsers()){
-            System.out.println("username "+u.getUsername()+ " Password: "+u.getPassword());
-
-        }
 
         attributes.addFlashAttribute("alertClass", "success");
-
-
-
-
-
-
 
         return new RedirectView("/signup");
 

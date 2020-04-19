@@ -35,7 +35,7 @@ public class LoginController  {
     @RequestMapping("/")
     public RedirectView redirectLogin(){
 
-        return new RedirectView("/dashboard");
+        return new RedirectView("/home");
     }
 
 

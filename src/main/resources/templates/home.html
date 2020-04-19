@@ -36,7 +36,7 @@
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">
-                        <form action="#" th:action="@{/dashboard/file/upload}"  enctype="multipart/form-data" method="POST">
+                        <form action="#" th:action="@{/home/file/upload}"  enctype="multipart/form-data" method="POST">
                             <div class="container">
                                 <div class="row" style="margin: 1em;">
                                     <div class="col-sm-2">
@@ -65,7 +65,7 @@
 
                                     <td>
                                         <a target="_blank" th:href="@{/download/{fileid}(fileid=${f.fileid})}" class="btn btn-success">View</a>
-                                        <a th:href="@{/dashboard/files/delete/{fileid}(fileid=${f.fileid})}" class="btn btn-danger">Delete</a>
+                                        <a th:href="@{/home/files/delete/{fileid}(fileid=${f.fileid})}" class="btn btn-danger">Delete</a>
                                     </td>
                                     <td  scope="row" th:text="${f.filename}" />
 
@@ -93,7 +93,7 @@
                                     <tr th:each="n: ${notes}">
                                         <td>
                                             <button type="button"  th:attr="onclick=|showNoteModal('${n.noteid}', '${n.notetitle}', '${n.notedescription}')|"  class="btn btn-success">Edit</button>
-                                            <a  th:href="@{/dashboard/notes/delete/{noteid}(noteid=${n.noteid})}" class="btn btn-danger">Delete</a>
+                                            <a  th:href="@{/home/notes/delete/{noteid}(noteid=${n.noteid})}" class="btn btn-danger">Delete</a>
                                         </td>
                                         <td  scope="row" th:text="${n.notetitle}" />
                                         <td th:text="${n.notedescription}" />
@@ -112,7 +112,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" th:action="@{/dashboard/notes/add}" th:object="${note}" method="POST">
+                                        <form action="#" th:action="@{/home/notes/add}" th:object="${note}" method="POST">
                                             <input type="hidden"    name="noteId" id="note-id">
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Title</label>
@@ -154,7 +154,7 @@
                                     <td>
 
                                         <button type="button"  th:attr="onclick=|showCredentialModal('${c.credentialid}', '${c.url}', '${c.username}', '${c.unencripted}')|"  class="btn btn-success">Edit</button>
-                                        <a  th:href="@{/dashboard/credentials/delete/{credentialid}(credentialid=${c.credentialid})}" class="btn btn-danger">Delete</a>
+                                        <a  th:href="@{/home/credentials/delete/{credentialid}(credentialid=${c.credentialid})}" class="btn btn-danger">Delete</a>
 
 
 
@@ -179,7 +179,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#"  th:action="@{/dashboard/credential/add}"  th:object="${credential}" method="POST">
+                                        <form action="#"  th:action="@{/home/credential/add}"  th:object="${credential}" method="POST">
                                             <input type="hidden" name="credentialId" id="credential-id">
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">URL</label>

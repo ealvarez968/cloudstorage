@@ -44,7 +44,7 @@ public class AppWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login").failureUrl("/login?error=true").defaultSuccessUrl("/dashboard", true)
+                .loginPage("/login").failureUrl("/login?error=true").defaultSuccessUrl("/home", true)
                 .permitAll()
                 .and()
                 .logout()
@@ -126,14 +126,6 @@ public class AppWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 
 
-    /*@Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder);
-
-    }*/
-
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
@@ -146,28 +138,6 @@ public class AppWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         auth
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
-                //.passwordEncoder(new HashService());
     }
-/*
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth)
-            throws Exception {
-
-        System.out.println("ajaaa esto que pedo");
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .usersByUsernameQuery("select userid,username,password "
-                        + "from USERS "
-                        + "where userid = 1");
-        / *auth.
-                jdbcAuthentication()
-                .usersByUsernameQuery(usersQuery)
-                .authoritiesByUsernameQuery(rolesQuery)
-                .dataSource(dataSource)
-                .passwordEncoder(bCryptPasswordEncoder);* /
-    }*/
-
-
-
 
 }

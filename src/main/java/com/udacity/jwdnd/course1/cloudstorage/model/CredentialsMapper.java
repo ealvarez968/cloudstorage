@@ -9,21 +9,10 @@ import java.util.ArrayList;
 public interface CredentialsMapper {
 
     @Select("SELECT * FROM CREDENTIALS WHERE credentialid = #{credentialid} and userid = #{userid}")
-    Credentials getCredential(@Param("credentialid") int credentialid, @Param("userid") int userid);
-
-    @Select("SELECT * FROM CREDENTIALS ")
-    ArrayList<Credentials> getCredentials();
+    Credentials getCredential( int credentialid, int userid);
 
     @Select("SELECT * FROM CREDENTIALS WHERE userid = #{userid}")
-    ArrayList<Credentials> getCredentialsByUserid(@Param("userid") int userid);
-
-
-    @Update("UPDATE CREDENTIALS SET key=#{key} WHERE credentialid =#{credentialid}")
-    void updateKey(String key, int credentialid);
-
-    @Update("UPDATE CREDENTIALS SET password=#{password} WHERE credentialid =#{credentialid}")
-    void updatePassword(String password, int credentialid);
-
+    ArrayList<Credentials> getCredentialsByUserid(int userid);
 
     @Delete("DELETE FROM CREDENTIALS WHERE credentialid =#{credentialid} and  userid =#{userid}")
     void deleteCredential(int credentialid, int userid);

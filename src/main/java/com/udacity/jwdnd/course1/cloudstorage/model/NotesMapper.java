@@ -9,23 +9,10 @@ import java.util.ArrayList;
 public interface NotesMapper {
 
     @Select("SELECT * FROM NOTES WHERE noteid = #{noteid} and userid = #{userid}")
-    Notes getNote(@Param("noteid") int noteid,  @Param("userid") int userid);
-
-    @Select("SELECT * FROM NOTES ")
-    ArrayList<Notes> getNotes();
+    Notes getNote(int noteid, int userid);
 
     @Select("SELECT * FROM NOTES WHERE userid = #{userid}")
-    ArrayList<Notes> getNotesByUserid(@Param("userid") int userid);
-
-
-    @Select("SELECT * FROM NOTES WHERE notetitle = #{notetitle}")
-    Notes noteTitleExists(@Param("notetitle") String notetitle);
-
-    @Update("UPDATE NOTES SET notetitle=#{notetitle} WHERE noteid =#{noteid}")
-    void updateNoteTitle(String notetitle, int noteid);
-
-    @Update("UPDATE NOTES SET notedescription=#{notedescription} WHERE noteid =#{noteid}")
-    void updateNoteDescription(String notedescription, int noteid);
+    ArrayList<Notes> getNotesByUserid(int userid);
 
     @Update("UPDATE NOTES SET notetitle=#{notetitle} , notedescription=#{notedescription} WHERE noteid =#{noteid} and userid= #{userid}")
     void updateNote(String notetitle, String notedescription, int noteid, int userid);

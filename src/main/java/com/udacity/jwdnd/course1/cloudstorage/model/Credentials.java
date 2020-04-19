@@ -61,8 +61,6 @@ public class Credentials {
         this.url = url;
     }
 
-
-
     public void setUnencripted(String unencripted) {
         this.unencripted = unencripted;
     }

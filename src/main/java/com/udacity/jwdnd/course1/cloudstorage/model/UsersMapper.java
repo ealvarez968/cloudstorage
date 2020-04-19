@@ -7,35 +7,17 @@ import java.util.ArrayList;
 @Mapper
 public interface UsersMapper {
 
-    @Select("SELECT * FROM USERS WHERE userid = #{userid}")
-    Users getUser(@Param("userid") int userid);
-
 
     @Select("SELECT * FROM USERS WHERE username = #{username}")
-    Users getUserByUsername(@Param("username") String username);
+    Users getUserByUsername(String username);
 
     @Select("SELECT * FROM ROLES WHERE userid = #{userid}")
-    ArrayList<Roles> getRolesByUserid(@Param("userid") int userid);
+    ArrayList<Roles> getRolesByUserid(int userid);
 
-
-
-    //@Insert("INSERT INTO USERS (userid, username, salt, password, firstname, lastname) values (#{userid},#{username}, #{salt}, #{password}, #{firstname}, #{lastname})")
-    /*@Insert("INSERT INTO USERS (userid,  firstname, lastname) values (#{userid}, #{firstname}, #{lastname})")
-    void insertUsers(int userid, String firstname, String lastname);*/
-    /*@Insert("INSERT INTO USERS (userid,username) values (#{userid}, #{username})")
-    void insertUsers(int userid, String username);*/
     @Insert("INSERT INTO USERS ( username, salt, password, firstname, lastname) values (#{username}, #{salt}, #{password}, #{firstname}, #{lastname})")
     void insertUser(Users users);
 
     @Select("SELECT * FROM USERS ")
     ArrayList<Users> getUsers();
-
-    @Update("UPDATE USERS SET username=#{username} WHERE userid =#{userid}")
-    void updateUsername(String username, int userid);
-
-    @Delete("DELETE FROM USERS WHERE userid =#{userid}")
-    void deleteUser(int userid);
-
-
 
 }

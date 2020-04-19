@@ -5,28 +5,20 @@ import com.udacity.jwdnd.course1.cloudstorage.config.Constant;
 import com.udacity.jwdnd.course1.cloudstorage.model.*;
 import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileStorageService;
-import com.udacity.jwdnd.course1.cloudstorage.services.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.crypto.Cipher;
-import java.math.BigInteger;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 @RestController
@@ -41,10 +33,12 @@ public class HomeController {
     private CredentialsMapper credentialsMapper;
     @Autowired
     private FilesMapper filesMapper;
+    @Autowired
+    private FileStorageService dbFileStorageService;
 
     private EncryptionService es;
 
-    @PostMapping("/dashboard/notes/add")
+    @PostMapping("/home/notes/add")
     public RedirectView notes(@ModelAttribute Notes note, RedirectAttributes attributes, @RequestParam(defaultValue="-1") int noteId) {
         String _sessionUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         Users _user = usersMapper.getUserByUsername(_sessionUsername);
@@ -54,7 +48,7 @@ public class HomeController {
 
             attributes.addFlashAttribute("alertClass", "danger");
             attributes.addFlashAttribute("msg", "Error on session ID.");
-            return new RedirectView("/dashboard");
+            return new RedirectView("/home");
 
         }
 
@@ -65,7 +59,7 @@ public class HomeController {
 
             attributes.addFlashAttribute("alertClass", "danger");
             attributes.addFlashAttribute("msg", "An Error ocurred while creating your note.");
-            return new RedirectView("/dashboard");
+            return new RedirectView("/home");
 
         }
 
@@ -81,7 +75,7 @@ public class HomeController {
             notesMapper.insertNote(n);
 
             attributes.addFlashAttribute("msg", "Your note "+note.getNotetitle()+" has been added successfully");
-            return new RedirectView("/dashboard");
+            return new RedirectView("/home");
 
         }
 
@@ -89,12 +83,12 @@ public class HomeController {
 
         notesMapper.updateNote(note.getNotetitle(),note.getNotedescription(),noteId, _user.getUserid());
 
-        return new RedirectView("/dashboard");
+        return new RedirectView("/home");
 
     }
 
 
-    @PostMapping("/dashboard/credential/add")
+    @PostMapping("/home/credential/add")
     public RedirectView credentials(@ModelAttribute Credentials credential, RedirectAttributes attributes, @RequestParam(defaultValue="-1") int credentialId) {
         String _sessionUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         Users _user = usersMapper.getUserByUsername(_sessionUsername);
@@ -103,7 +97,7 @@ public class HomeController {
 
             attributes.addFlashAttribute("alertClass", "danger");
             attributes.addFlashAttribute("msg", "Error on session ID.");
-            return new RedirectView("/dashboard");
+            return new RedirectView("/home");
 
         }
 
@@ -116,7 +110,7 @@ public class HomeController {
 
             attributes.addFlashAttribute("alertClass", "danger");
             attributes.addFlashAttribute("msg", "An Error ocurred while creating your credential.");
-            return new RedirectView("/dashboard");
+            return new RedirectView("/home");
 
         }
         attributes.addFlashAttribute("alertClass", "success");
@@ -134,7 +128,7 @@ public class HomeController {
             credentialsMapper.insertNote(newCredential);
 
             attributes.addFlashAttribute("msg", "Your credential for "+newCredential.getUrl()+" has been added successfully");
-            return new RedirectView("/dashboard");
+            return new RedirectView("/home");
 
         }
 
@@ -145,10 +139,10 @@ public class HomeController {
         credentialsMapper.updateCredential(credential.getUrl(),credential.getUsername(),
                 es.encryptValue(credential.getPassword(), oldCredential.getKey()),credentialId,_user.getUserid());
 
-        return new RedirectView("/dashboard");
+        return new RedirectView("/home");
     }
 
-    @GetMapping("/dashboard/notes/delete/{noteid}")
+    @GetMapping("/home/notes/delete/{noteid}")
     public RedirectView deleteNote( @PathVariable("noteid") int noteid,  RedirectAttributes attributes){
         String _sessionUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         Users _user = usersMapper.getUserByUsername(_sessionUsername);
@@ -158,18 +152,18 @@ public class HomeController {
         if(_user == null){
             attributes.addFlashAttribute("alertClass", "danger");
             attributes.addFlashAttribute("msg", "Note not found.");
-            return new RedirectView("/dashboard");
+            return new RedirectView("/home");
         }
         attributes.addFlashAttribute("alertClass", "success");
         attributes.addFlashAttribute("msg", "Your note "+n.getNotetitle()+" has been deleted successfully");
 
         notesMapper.deleteNote(n.getNoteid(), _user.getUserid());
 
-        return new RedirectView("/dashboard");
+        return new RedirectView("/home");
 
     }
 
-    @GetMapping("/dashboard/files/delete/{fileid}")
+    @GetMapping("/home/files/delete/{fileid}")
     public RedirectView deleteFile( @PathVariable("fileid") int fileid,  RedirectAttributes attributes){
         String _sessionUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         Users _user = usersMapper.getUserByUsername(_sessionUsername);
@@ -179,18 +173,18 @@ public class HomeController {
         if(_user == null){
             attributes.addFlashAttribute("alertClass", "danger");
             attributes.addFlashAttribute("msg", "File not found.");
-            return new RedirectView("/dashboard");
+            return new RedirectView("/home");
         }
         attributes.addFlashAttribute("alertClass", "success");
         attributes.addFlashAttribute("msg", "Your file "+f.getFilename()+" has been deleted successfully");
 
         filesMapper.deleteFiles(f.getFileid(), _user.getUserid());
 
-        return new RedirectView("/dashboard");
+        return new RedirectView("/home");
 
     }
 
-    @GetMapping("/dashboard/credentials/delete/{credentialid}")
+    @GetMapping("/home/credentials/delete/{credentialid}")
     public RedirectView deleteCredential( @PathVariable("credentialid") int credentialid,  RedirectAttributes attributes){
         String _sessionUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         Users _user = usersMapper.getUserByUsername(_sessionUsername);
@@ -198,7 +192,7 @@ public class HomeController {
         if(_user == null){
             attributes.addFlashAttribute("alertClass", "danger");
             attributes.addFlashAttribute("msg", "Credential not found.");
-            return new RedirectView("/dashboard");
+            return new RedirectView("/home");
         }
 
         Credentials n = credentialsMapper.getCredential(credentialid, _user.getUserid());
@@ -206,23 +200,19 @@ public class HomeController {
         if(n == null){
             attributes.addFlashAttribute("alertClass", "danger");
             attributes.addFlashAttribute("msg", "Credential not found.");
-            return new RedirectView("/dashboard");
+            return new RedirectView("/home");
         }
         attributes.addFlashAttribute("alertClass", "success");
         attributes.addFlashAttribute("msg", "Your credential for "+n.getUrl()+" has been deleted successfully");
 
         credentialsMapper.deleteCredential(n.getCredentialid(), _user.getUserid());
 
-        return new RedirectView("/dashboard");
+        return new RedirectView("/home");
 
     }
 
 
-    //@RequestMapping(["/home","/"])
-    @RequestMapping("/dashboard")
-    /*@RequestMapping(
-            value = { "/home", "/", "/home/" },
-            method = RequestMethod.GET)*/
+    @RequestMapping("/home")
     public ModelAndView getHome(@ModelAttribute("alertClass") String alertClass, @ModelAttribute("msg") String msg){
         String _sessionUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         Users _user = usersMapper.getUserByUsername(_sessionUsername);
@@ -257,14 +247,7 @@ public class HomeController {
         return mav;
     }
 
-
-
-
-    @Autowired
-    private FileStorageService dbFileStorageService;
-
-
-    @PostMapping("/dashboard/file/upload")
+    @PostMapping("/home/file/upload")
     public RedirectView file(@RequestParam("fileUpload") MultipartFile file,
                              RedirectAttributes attributes) {
         String _sessionUsername = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -274,14 +257,14 @@ public class HomeController {
         if(fileExists != null ){
             attributes.addFlashAttribute("alertClass", "danger");
             attributes.addFlashAttribute("msg", "Your file  "+file.getOriginalFilename()+" already exists.");
-            return new RedirectView("/dashboard");
+            return new RedirectView("/home");
         }
         Files f = dbFileStorageService.storeFile(file, _user.getUserid());
 
         attributes.addFlashAttribute("alertClass", "success");
         attributes.addFlashAttribute("msg", "Your file  "+f.getFilename()+" has been saved successfully");
 
-        return new RedirectView("/dashboard");
+        return new RedirectView("/home");
     }
 
     @GetMapping("/download/{fileId}")

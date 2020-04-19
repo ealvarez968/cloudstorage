@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 @Service
 public class InsertService implements UsersMapper {
-    @Override
+    /*@Override
     public Users getUser(int userid) {
         return null;
-    }
+    }*/
 
     @Override
     public Users getUserByUsername(String username) {
@@ -34,7 +34,7 @@ public class InsertService implements UsersMapper {
         return null;
     }
 
-    @Override
+   /* @Override
     public void updateUsername(String username, int userid) {
 
     }
@@ -42,5 +42,5 @@ public class InsertService implements UsersMapper {
     @Override
     public void deleteUser(int userid) {
 
-    }
+    }*/
 }
