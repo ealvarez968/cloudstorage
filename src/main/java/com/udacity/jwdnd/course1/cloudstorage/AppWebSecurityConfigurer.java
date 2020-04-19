@@ -36,7 +36,36 @@ public class AppWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http
+                .authorizeRequests()
+               // .antMatchers( "/favicon.ico").permitAll()
+                .antMatchers( "/signup").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login").failureUrl("/login?error=true").defaultSuccessUrl("/dashboard", true)
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .invalidateHttpSession(true)        // set invalidation state when logout
+                .deleteCookies("JSESSIONID")
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/403");
+        /*http.authorizeRequests()
+                .anyRequest().permitAll()
+                .and()
+                .formLogin()
+                .loginPage("/login").failureUrl("/login?error=true").defaultSuccessUrl("/dashboard", true)
+                .and()
+                .logout().logoutUrl("/logoutsession")
+                .logoutSuccessUrl("/login")
+                .invalidateHttpSession(true);*/
+
+        /*http
                 .authorizeRequests()
                 .antMatchers( "/favicon.ico").permitAll()
                 .antMatchers( "/signup").permitAll()
@@ -54,7 +83,7 @@ public class AppWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .exceptionHandling()
-                .accessDeniedPage("/403");
+                .accessDeniedPage("/403");*/
         /*http.authorizeRequests()
 
                 .antMatchers( "/favicon.ico").permitAll()

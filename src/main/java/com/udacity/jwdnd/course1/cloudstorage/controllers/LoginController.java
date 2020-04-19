@@ -31,36 +31,11 @@ public class LoginController  {
         return mav;
     }
 
-    @PostMapping("/logoutsession")
-    public RedirectView getLogout(HttpServletRequest request, HttpServletResponse response){
-        System.out.println("engro post");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-
-
-        return new RedirectView("/login");
-    }
-
-    @RequestMapping("/logoutsession")
-    public RedirectView getLogoutGET(HttpServletRequest request, HttpServletResponse response){
-        System.out.println("engro get");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-
-
-        return new RedirectView("/login");
-    }
 
     @RequestMapping("/")
     public RedirectView redirectLogin(){
 
-
-
-        return new RedirectView("/login");
+        return new RedirectView("/dashboard");
     }
 
 

@@ -37,41 +37,6 @@ public class SignUpController {
         return mav;
     }
 
-    /*@PostMapping("/signup/validate")
-    public RedirectView validate(@ModelAttribute Users user, RedirectAttributes attributes) {
-
-        if(user == null
-                || user.getLastname() == null
-                || user.getFirstname() == null
-                || user.getPassword() == null
-                || user.getUsername() == null
-                || user.getPassword().trim().length() == 0
-                || user.getFirstname().trim().length() == 0
-                || user.getUsername().trim().length() == 0
-                || user.getLastname().trim().length() == 0){
-
-            attributes.addFlashAttribute("alertClass", "danger");
-            attributes.addFlashAttribute("msg", "An Error ocurred while creating your user, please check the form again.");
-            return new RedirectView("/home");
-
-        }
-        Users newUser = new Users();
-        final String KEY = es.generateRandomSpecialCharacters(Constant.KEY_LENGTH);
-        bCryptPasswordEncoder=  new BCryptPasswordEncoder();
-        bCryptPasswordEncoder.encode(user.getPassword());
-
-
-        newUser.setFirstname(user.getFirstname());
-        newUser.setLastname(user.getLastname());
-        newUser.setSalt(KEY);
-        newUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        newUser.setUsername(user.getUsername());
-        usersMapper.insertUsers(newUser);
-
-        attributes.addFlashAttribute("alertClass", "success");
-
-        return new RedirectView("/signup");
-    }*/
 
     @PostMapping("/signup")
     public RedirectView validate(@ModelAttribute Users user, RedirectAttributes attributes) {
